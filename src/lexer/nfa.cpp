@@ -41,8 +41,11 @@ namespace lexer
                     operands.pop();
                     NFA left = operands.top();
                     operands.pop();
+                    if (operators.top() == '|')
+                        operands.push(orOp(left, right));
+                    else
+                        operands.push(concat(left, right));
                     operators.pop();
-                    operands.push(orOp(left, right));
                 }
                 operators.push(c);
                 break;
@@ -222,12 +225,12 @@ namespace lexer
             {
                 for (int nextState : nextStates)
                 {
-                    if(symbol == EPSILON)
+                    if (symbol == EPSILON)
                     {
-                        os << '('<< state << ", " << nextState << ", " << EPSILON_UNICODE  << ')' << endl;
+                        os << '(' << state << ", " << nextState << ", " << EPSILON_UNICODE << ')' << endl;
                     }
                     else
-                    os << '('<< state << ", " << nextState << ", " << symbol  << ')' << endl;
+                        os << '(' << state << ", " << nextState << ", " << symbol << ')' << endl;
                 }
             }
         }
