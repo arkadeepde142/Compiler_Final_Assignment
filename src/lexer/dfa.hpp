@@ -6,16 +6,16 @@
 
 namespace lexer
 {
+    using DFATransitionTable = unordered_map<int, unordered_map<char, int>>;
     class DFA
     {
     private:
-        vector<char> m_alphabets;
         vector<int> m_acceptingStates;
-        vector<vector<int>> transitionTable;
+        DFATransitionTable transitionTable;
         int states;
 
     public:
-        DFA(NFA nfa);
+        DFA(vector<NFA> nfas);
     };
 }
 #endif

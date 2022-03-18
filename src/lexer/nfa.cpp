@@ -13,17 +13,22 @@ namespace lexer
         return statesCount;
     }
 
-    NFA convertREToNFA(std::string str)
+    NFA convertREToNFA(string str)
     {
         stack<NFA> operands;
         stack<char> operators;
-        for (char c : str)
+        for (int i = 0; i < str.size(); ++i)
         {
-            switch (c)
+            switch (str[i])
             {
+            case '\\':
+            {
+                operands.push(forSymbol(str[++i]));
+                break;
+            }
             case '(':
             {
-                operators.push(c);
+                operators.push(str[i]);
                 break;
             }
             case '*':
@@ -47,7 +52,7 @@ namespace lexer
                         operands.push(concat(left, right));
                     operators.pop();
                 }
-                operators.push(c);
+                operators.push(str[i]);
                 break;
             }
             case '.':
@@ -61,7 +66,7 @@ namespace lexer
                     operators.pop();
                     operands.push(concat(left, right));
                 }
-                operators.push(c);
+                operators.push(str[i]);
                 break;
             }
             case ')':
@@ -83,7 +88,7 @@ namespace lexer
                 break;
             }
             default:
-                operands.push(forSymbol(c));
+                operands.push(forSymbol(str[i]));
             }
         }
         while (!operators.empty() && operators.top() != '(')
@@ -120,7 +125,7 @@ namespace lexer
         transitionTable[fromState][symbol].insert(toState);
     }
 
-    TransitionTable NFA::getTransitionTable() const
+    NFATransitionTable NFA::getTransitionTable() const
     {
         return transitionTable;
     }

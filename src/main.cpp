@@ -3,6 +3,6 @@
 using namespace std;
 int main()
 {
-    lexer::NFA nfa = lexer::convertREToNFA("a|b.c");
+    lexer::NFA nfa = lexer::convertREToNFA("a|b.\\.");
     cout << nfa;
 }

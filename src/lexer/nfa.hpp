@@ -10,12 +10,12 @@
 namespace lexer
 {
     using namespace std;
-    using TransitionTable = unordered_map<int, unordered_map<char, unordered_set<int>>>;
+    using NFATransitionTable = unordered_map<int, unordered_map<char, unordered_set<int>>>;
     class NFA
     {
     private:
         unordered_set<int> acceptingStates;
-        TransitionTable transitionTable;
+        NFATransitionTable transitionTable;
         const int statesCount;
 
     public:
@@ -24,7 +24,7 @@ namespace lexer
         void setAcceptingState(int s);
         unordered_set<int> getAcceptingStates() const;
         int getStatesCount() const;
-        TransitionTable getTransitionTable() const;
+        NFATransitionTable getTransitionTable() const;
     };
 
     ostream& operator<<(ostream& os, NFA const& nfa);

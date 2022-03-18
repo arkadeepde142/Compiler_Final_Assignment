@@ -2,7 +2,6 @@
 
 namespace lexer
 {
-    DFA::DFA(NFA nfa) {
-        
+    DFA::DFA(vector<NFA> nfas) {
     }
 }
