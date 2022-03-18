@@ -79,6 +79,7 @@ namespace lexer
                     else
                         operands.push(concat(left, right));
                 }
+                    operators.pop();
                 break;
             }
             default:
