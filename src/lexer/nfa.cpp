@@ -1,4 +1,4 @@
-#include <nfa.hpp>
+#include "nfa.hpp"
 #include <stack>
 #define EPSILON_UNICODE "\u03F5"
 

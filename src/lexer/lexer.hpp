@@ -1,18 +1,19 @@
 #ifndef LEXER_HPP
 #define LEXER_HPP
 #include <unordered_map>
-#include <dfa.hpp>
+#include <functional>
+#include "dfa.hpp"
 namespace lexer
 {
     using namespace std;
-    using SymbolTable = unordered_map<int, int>;
 
     class Lexer
     {
     private:
-        SymbolTable table;
+        vector<pair<DFA, function<void(string)>>> dfas;
     public:
-        virtual void lex(string s) = 0;
+        Lexer(vector<pair<DFA, function<void(string)>>> dfas);
+        unsigned long lex(string const& s, unsigned long curr);
     };
 }
 #endif
