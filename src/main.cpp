@@ -1,24 +1,21 @@
 #include <iostream>
-#include <lexer/lexer.hpp>
+#include <clexer.hpp>
+#include <parser/parser.hpp>
 using namespace std;
-
 
 int main()
 {
-    lexer::Lexer lex({{R"(char|int)"s,
-                       [](string s)
-                       {
-                           cout << "KEYWORD" << endl;
-                       }},
-                      {R"( *)"s,
-                       [](string s) {
-                       }}});
+    CLexer lex;
 
-    string s = "int    char";
+    string s = "int func(int x1, int x2); \n int func(int x1, int x2){return x1 + x2;} \n void main(){ int z = func(2, 3);}";
 
     unsigned long start = 0;
-    while (start < (unsigned long)(-1) && start < s.size())
+    while (start < s.size())
     {
         start = lex.lex(s, start);
+        if (start > s.size())
+        {
+            cout << "Error at line " << lex.getLine() << endl;
+        }
     }
 }

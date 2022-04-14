@@ -38,6 +38,6 @@ namespace lexer
             dfas[match.first].second(s.substr(start, match.second - start + 1));
             return match.second + 1;
         }
-        return -1;
+        return string::npos;
     }
 }

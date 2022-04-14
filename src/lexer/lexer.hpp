@@ -2,7 +2,7 @@
 #define LEXER_HPP
 #include <unordered_map>
 #include <functional>
-#include "dfa.hpp"
+#include <dfa.hpp>
 namespace lexer
 {
     using namespace std;
@@ -14,6 +14,7 @@ namespace lexer
     public:
         Lexer(vector<pair<DFA, function<void(string)>>> dfas);
         unsigned long lex(string const& s, unsigned long curr);
+        virtual int getLine() const = 0;
     };
 }
 #endif
