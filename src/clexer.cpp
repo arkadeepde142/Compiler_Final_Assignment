@@ -80,12 +80,17 @@ CLexer::CLexer() : lexer::Lexer({
 {
 }
 
-int CLexer::getLine() const
+unsigned long CLexer::getLine() const
 {
     return line;
 }
 
-std::vector<Symbol> CLexer::getLexemes() const
+unsigned long CLexer::getColNum() const
+{
+    return colNum;
+}
+
+std::vector<Symbol> const& CLexer::getLexemes() const
 {
     return lexemes;
 }
@@ -95,6 +100,7 @@ void CLexer::generateLexemes(std::string s)
     unsigned long start = 0;
     while (start < s.size())
     {
+        colNum = start - colStart + 1;
         start = lex(s, start);
         if (start > s.size())
         {
@@ -107,8 +113,11 @@ void CLexer::reset()
 {
     error = false;
     line = 1;
+    colNum = 1;
+    colStart = 0;
 }
 
-Symbol::Symbol(string tokenName) : tokenName(tokenName)
+bool CLexer::isError() const
 {
+    return error;
 }

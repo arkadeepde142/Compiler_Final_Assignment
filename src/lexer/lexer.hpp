@@ -14,7 +14,8 @@ namespace lexer
     public:
         Lexer(vector<pair<DFA, function<void(string, unsigned long)>>> dfas);
         unsigned long lex(string const& s, unsigned long curr);
-        virtual int getLine() const = 0;
+        virtual unsigned long getLine() const = 0;
+        virtual unsigned long getColNum() const = 0;
     };
 }
 #endif
