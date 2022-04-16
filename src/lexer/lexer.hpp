@@ -10,9 +10,9 @@ namespace lexer
     class Lexer
     {
     private:
-        vector<pair<DFA, function<void(string)>>> dfas;
+        vector<pair<DFA, function<void(string, unsigned long)>>> dfas;
     public:
-        Lexer(vector<pair<DFA, function<void(string)>>> dfas);
+        Lexer(vector<pair<DFA, function<void(string, unsigned long)>>> dfas);
         unsigned long lex(string const& s, unsigned long curr);
         virtual int getLine() const = 0;
     };

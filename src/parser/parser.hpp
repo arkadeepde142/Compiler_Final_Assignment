@@ -9,14 +9,15 @@ namespace parser
 {
     using namespace std;
 
-    template <typename Symbol>
-    using Grammar = unordered_map<Symbol, vector<pair<vector<Symbol>, function<void(vector<Symbol *>)>>>>;
 
     template <typename Symbol>
-    using Production = pair<Symbol, pair<vector<Symbol>, function<void(vector<Symbol *>)>>>;
+    using Production = pair<vector<Symbol>, unordered_map<int, function<void(Symbol, vector<Symbol *>)>>>;
 
     template <typename Symbol>
     using ParseTable = unordered_map<Symbol, unordered_map<Symbol, Production<Symbol>>>;
+
+    template <typename Symbol>
+    using Grammar = unordered_map<Symbol, vector<Production<Symbol>>>;
 
     template <typename Symbol>
     unordered_map<Symbol, unordered_set<Symbol>> generateFirstSet(Grammar<Symbol> const &grammar, Symbol const &epsilon);
@@ -34,12 +35,12 @@ namespace parser
                                 Symbol epsilon,
                                 unordered_map<Symbol, unordered_set<Symbol>> const &firstSets,
                                 Symbol start);
-    
-    template <typename Symbol>
-    unordered_set<Symbol> firstSetOf(vector<Symbol> const& production, unordered_map<Symbol, unordered_set<Symbol>> const &firstSets, Symbol epsilon);
 
     template <typename Symbol>
-    ParseTable<Symbol> createParseTable(Grammar<Symbol> const& grammar, Symbol epsilon, Symbol startSymbol);
+    unordered_set<Symbol> firstSetOf(vector<Symbol> const &production, unordered_map<Symbol, unordered_set<Symbol>> const &firstSets, Symbol epsilon);
+
+    template <typename Symbol>
+    ParseTable<Symbol> createParseTable(Grammar<Symbol> const &grammar, Symbol epsilon, Symbol startSymbol);
 
     template <typename Symbol>
     class Parser
@@ -53,17 +54,84 @@ namespace parser
     public:
         Parser(Grammar<Symbol> grammar, Symbol epsilon, Symbol start);
         vector<Production<Symbol>> getLMD(vector<Symbol> const &symbols) const;
+        void parse(vector<Symbol> const &symbols) const;
+
+    private:
+        int parseUtil(vector<Symbol> const &, Symbol symbol, int index) const;
     };
 
     template <typename Symbol>
     Parser<Symbol>::Parser(Grammar<Symbol> grammar, Symbol epsilon, Symbol start) : parseTable(createParseTable(grammar, epsilon, start)), epsilon(epsilon), startSymbol(start)
     {
-        
     }
 
     template <typename Symbol>
     vector<Production<Symbol>> Parser<Symbol>::getLMD(vector<Symbol> const &symbols) const
     {
+    }
+
+    template <typename Symbol>
+    void Parser<Symbol>::parse(vector<Symbol> const &symbols) const
+    {
+        vector<Symbol> s(symbols);
+        s.push_back(Symbol());
+        int val = parseUtil(s, startSymbol, 0);
+    }
+
+    template <typename Symbol>
+    int Parser<Symbol>::parseUtil(vector<Symbol> const &symbols, Symbol symbol, int index) const
+    {
+        if (symbols[index] == symbol)
+        {
+            return index + 1;
+        }
+        else if (parseTable.find(symbol) == parseTable.end())
+        {
+            if(symbol == epsilon)
+            {
+                return index;
+            }
+            return -1;
+        }
+        else if (parseTable.at(symbol).find(symbols[index]) == parseTable.at(symbol).end())
+        {
+            return -1;
+        }
+        else
+        {
+            int curr = index;
+            // cout << symbol;
+            // cout << " -> ";
+
+            // for (auto s : parseTable.at(symbol).at(symbols[index]).first)
+            //     cout << s << " ";
+            // cout << endl;
+            auto const& prod = parseTable.at(symbol).at(symbols[index]).first;
+            auto const& actions = parseTable.at(symbol).at(symbols[index]).second;
+
+            vector<Symbol> siblings(prod);
+            for (int i = 0; i < prod.size(); ++i)
+            {
+                if(actions.find(i) != actions.end())
+                {
+                    vector<Symbol *> siblingPointers(i + 1);
+                    for(int j = 0; j <= i; ++j)
+                    {
+                        siblingPointers[j] = &siblings[j];
+                    }
+                    actions.at(i)(symbol, siblingPointers);
+                }
+
+                curr = parseUtil(symbols, prod[i], curr);
+                if (curr == -1)
+                {
+                    return -1;
+                }
+
+                
+            }
+            return curr;
+        }
     }
 
     template <typename Symbol>
@@ -212,12 +280,12 @@ namespace parser
     }
 
     template <typename Symbol>
-    unordered_set<Symbol> firstSetOf(vector<Symbol> const& production, unordered_map<Symbol, unordered_set<Symbol>> const &firstSets, Symbol epsilon)
+    unordered_set<Symbol> firstSetOf(vector<Symbol> const &production, unordered_map<Symbol, unordered_set<Symbol>> const &firstSets, Symbol epsilon)
     {
         unordered_set<Symbol> result;
-        for(Symbol symbol: production)
+        for (Symbol symbol : production)
         {
-            if(firstSets.find(symbol) == firstSets.end())
+            if (firstSets.find(symbol) == firstSets.end())
             {
                 result.erase(epsilon);
                 result.insert(symbol);
@@ -225,13 +293,13 @@ namespace parser
             }
 
             set_union(
-            begin(firstSets.at(symbol)),
-            end(firstSets.at(symbol)),
-            begin(result),
-            end(result),
-            inserter(result, end(result)));
+                begin(firstSets.at(symbol)),
+                end(firstSets.at(symbol)),
+                begin(result),
+                end(result),
+                inserter(result, end(result)));
 
-            if(firstSets.at(symbol).find(epsilon) == firstSets.at(symbol).end())
+            if (firstSets.at(symbol).find(epsilon) == firstSets.at(symbol).end())
             {
                 result.erase(epsilon);
                 break;
@@ -241,29 +309,29 @@ namespace parser
     }
 
     template <typename Symbol>
-    ParseTable<Symbol> createParseTable(Grammar<Symbol> const& grammar, Symbol epsilon, Symbol startSymbol)
+    ParseTable<Symbol> createParseTable(Grammar<Symbol> const &grammar, Symbol epsilon, Symbol startSymbol)
     {
         ParseTable<Symbol> parseTable;
-        
+
         auto firstSets = generateFirstSet(grammar, epsilon);
         auto followSets = generateFollowSet(grammar, epsilon, firstSets, startSymbol);
 
-        for(auto const& [symbol, productions]: grammar)
+        for (auto const &[symbol, productions] : grammar)
         {
-            for(auto const& [production, action]: productions)
+            for (auto const &[production, action] : productions)
             {
                 auto firstSymbols = firstSetOf(production, firstSets, epsilon);
-                if(firstSymbols.find(epsilon) != firstSymbols.end())
+                if (firstSymbols.find(epsilon) != firstSymbols.end())
                 {
-                    for(auto const& followSymbol: followSets.at(symbol))
+                    for (auto const &followSymbol : followSets.at(symbol))
                     {
-                        parseTable[symbol][followSymbol] = {symbol, {production, action}};
+                        parseTable[symbol][followSymbol] = {production, action};
                     }
                     firstSymbols.erase(epsilon);
                 }
-                for(auto const& firstSymbol: firstSymbols)
+                for (auto const &firstSymbol : firstSymbols)
                 {
-                    parseTable[symbol][firstSymbol] = {symbol, {production, action}};
+                    parseTable[symbol][firstSymbol] = {production, action};
                 }
             }
         }

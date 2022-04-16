@@ -3,7 +3,7 @@
 namespace lexer
 {
 
-    Lexer::Lexer(vector<pair<DFA, function<void(string)>>> dfas) : dfas(dfas)
+    Lexer::Lexer(vector<pair<DFA, function<void(string, unsigned long)>>> dfas) : dfas(dfas)
     {
     }
 
@@ -35,7 +35,7 @@ namespace lexer
 
         if(match != pair{-1, -1})
         {
-            dfas[match.first].second(s.substr(start, match.second - start + 1));
+            dfas[match.first].second(s.substr(start, match.second - start + 1), start);
             return match.second + 1;
         }
         return string::npos;
