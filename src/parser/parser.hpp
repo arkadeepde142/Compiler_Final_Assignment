@@ -142,7 +142,13 @@ namespace parser
         {
             generateFirstSetRecur(grammar, s, sets, epsilon);
         }
-
+        // for(auto const& [s,a] : sets ){
+        //     cout<< s << " => ";
+        //     for (auto x : a){
+        //         cout<<x<<", ";
+        //     }
+        //     cout<<endl;
+        // }
         return sets;
     }
 

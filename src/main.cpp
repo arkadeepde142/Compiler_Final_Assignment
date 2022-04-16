@@ -150,6 +150,7 @@ int main()
 }},
 
 {"arg",         {{{"id", "dot"}, {{0, [](Symbol parent, vector<Symbol *> siblingPointers){/*semantic action */}}}},
+                 {{"constant"}, {{0, [](Symbol parent, vector<Symbol *> siblingPointers){/*semantic action */}}}},
 }},
 
 {"prefix_op",     {{{"++", "id", "dot"}, {{0, [](Symbol parent, vector<Symbol *> siblingPointers){/*semantic action */}}}},
