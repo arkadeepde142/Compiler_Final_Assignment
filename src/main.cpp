@@ -9,7 +9,7 @@ int main()
 {
     // CLexer lex;
 
-    string s = " int func(int x1, int x2){return 2;} \n void main(){ int z = func(2, 3);}";
+    string s = "union node {int x, y, z;}temp, temp1; void main(){ union node t; int a = temp.x + temp1.y;}";
 
     // unsigned long start = 0;
     // while (start < s.size())
@@ -51,7 +51,7 @@ int main()
  {"c2", { {{ "block" }, {{0, [](Symbol parent, vector<Symbol *> siblingPointers){ /*semantic action */ }}}},
          }},
   
-  {"struct_def", { {{ "{",  "}" , "D", ";" }, {{0, [](Symbol parent, vector<Symbol *> siblingPointers){ /*semantic action */ }}}},
+  {"struct_def", { {{ "{", "SM", "}" , "D", ";" }, {{0, [](Symbol parent, vector<Symbol *> siblingPointers){ /*semantic action */ }}}},
          }},
 
   {"SM", { {{ "U" , "SM'" }, {{0, [](Symbol parent, vector<Symbol *> siblingPointers){ /*semantic action */ }}}},
@@ -61,7 +61,7 @@ int main()
             {{"#" }, {{0, [](Symbol parent, vector<Symbol *> siblingPointers){ /*semantic action */ }}}}
          }},
   
-  {"U", { {{ "primitive" }, {{0, [](Symbol parent, vector<Symbol *> siblingPointers){ /*semantic action */ }}}},
+  {"U", { {{ "primitive","var_list", ";" }, {{0, [](Symbol parent, vector<Symbol *> siblingPointers){ /*semantic action */ }}}},
          }},
   
   {"D", { {{ "var_list" }, {{0, [](Symbol parent, vector<Symbol *> siblingPointers){ /*semantic action */ }}}},
