@@ -100,12 +100,12 @@ namespace parser
         else
         {
             int curr = index;
-            // cout << symbol;
-            // cout << " -> ";
+            cout << symbol;
+            cout << " -> ";
 
-            // for (auto s : parseTable.at(symbol).at(symbols[index]).first)
-            //     cout << s << " ";
-            // cout << endl;
+            for (auto s : parseTable.at(symbol).at(symbols[index]).first)
+                cout << s << " ";
+            cout << endl;
             auto const& prod = parseTable.at(symbol).at(symbols[index]).first;
             auto const& actions = parseTable.at(symbol).at(symbols[index]).second;
 
