@@ -28,19 +28,47 @@ CParser::CParser():Parser<Symbol>({
                      cerr<<siblingPointers[1]->colNum<<endl<< " variable already declared ! "<<endl;
               }
               }}}},
-       {{"struct_or_union" , "id" , "struct_def", "c"}, {{0, [](Symbol parent, vector<Symbol *> siblingPointers){/*semantic action */}}}},
-       {{"enum" , "id" ,"enum_def", "c"} , {{0, [](Symbol parent, vector<Symbol *> siblingPointers){/*semantic action */}}}},
+       {{"struct_or_union" , "id" , "struct_def", "c"}, {{1, [&](Symbol parent, vector<Symbol *> siblingPointers)
+              {
+              Row row;
+              string k = siblingPointers[1]->lexval;
+              siblingPointers[2]->id = k;
+              row.type = "custom";
+              if (!symbolTable.declareVariable(k, row))
+              {
+                     cerr<<"Error at line: "<<siblingPointers[1]->lineNum<<" and column: ";
+                     cerr<<siblingPointers[1]->colNum<<endl<< " variable already declared ! "<<endl;
+                     exit(EXIT_FAILURE);
+              }
+              }}}},
+       {{"enum" , "id" ,"enum_def", "c"} , {{1, [&](Symbol parent, vector<Symbol *> siblingPointers)
+              {
+              Row row;
+              string k = siblingPointers[1]->lexval;
+              siblingPointers[2]->id = k;
+              row.type = "custom";
+              if (!symbolTable.declareVariable(k, row))
+              {
+                     cerr<<"Error at line: "<<siblingPointers[1]->lineNum<<" and column: ";
+                     cerr<<siblingPointers[1]->colNum<<endl<< " variable already declared ! "<<endl;
+                     exit(EXIT_FAILURE);
+              }
+              }}}},
        {{"#"} , {{0, [](Symbol parent, vector<Symbol *> siblingPointers){/*semantic action */}}}}
 
        }},
  
- {"fn", { {{"(", "paramlist" , ")", "c2" }, {{0, [](Symbol parent, vector<Symbol *> siblingPointers){ /*semantic action */ }}}},
+ {"fn", { {{"(", "paramlist" , ")", "c2" }, {{1, [&](Symbol parent, vector<Symbol *> siblingPointers){ symbolTable.openScope(); }}}},
          }},
 
-  {"c1", { {{"(", "paramlist" , ")", "c2" }, {{0, [](Symbol parent, vector<Symbol *> siblingPointers){ /*semantic action */ }}}},
+  {"c1", { {{"(", "paramlist" , ")", "c2" }, {{1, [&](Symbol parent, vector<Symbol *> siblingPointers){ symbolTable.openScope(); }}}},
             {{";" }, {{0, [](Symbol parent, vector<Symbol *> siblingPointers){ /*semantic action */ }}}},
             {{"W",";" }, {{0, [](Symbol parent, vector<Symbol *> siblingPointers){ /*semantic action */ }}}},
-            {{",", "var_list" , ";" }, {{0, [](Symbol parent, vector<Symbol *> siblingPointers){ /*semantic action */ }}}}
+            {{",", "var_list" , ";" }, {{0, [](Symbol parent, vector<Symbol *> siblingPointers)
+              { 
+                     siblingPointers[1]->aspect = "declaration";
+                     siblingPointers[1]->type = "primitive";
+              }}}}
           }},
  
  {"c2", { {{ "block" }, {{0, [](Symbol parent, vector<Symbol *> siblingPointers){ /*semantic action */ }}}},
