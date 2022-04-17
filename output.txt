@@ -47,7 +47,7 @@ stmt -> something ;
 something -> ret 
 ret -> return ret_var 
 ret_var -> id dot 
-dot -> # 
+dot -> . id 
 stmtList -> # 
 scope_end -> } 
 c -> primitive id c1 c 
@@ -55,12 +55,6 @@ c1 -> ( paramlist ) c2
 paramlist -> # 
 c2 -> block 
 block -> { stmtList scope_end 
-stmtList -> stmt stmtList 
-stmt -> something ; 
-something -> primitive id Z 
-Z -> , var_list 
-var_list -> id var_list' 
-var_list' -> # 
 stmtList -> stmt stmtList 
 stmt -> something ; 
 something -> struct_or_union id D 
@@ -71,7 +65,7 @@ var_list' -> #
 stmtList -> loop stmtList 
 loop -> for condn block 
 condn -> ( stmt1 ; stmt2 ; stmt3 ) 
-stmt1 -> id W 
+stmt1 -> primitive id W 
 W -> = V 
 V -> exprsn 
 exprsn -> T E' 
@@ -90,7 +84,7 @@ block -> { stmtList scope_end
 stmtList -> loop stmtList 
 loop -> for condn block 
 condn -> ( stmt1 ; stmt2 ; stmt3 ) 
-stmt1 -> id W 
+stmt1 -> primitive id W 
 W -> = V 
 V -> exprsn 
 exprsn -> T E' 
@@ -148,6 +142,61 @@ stmtList -> #
 scope_end -> } 
 c -> # 
 Successfully Parsed
+*************    SYMBOL TABLE    *****************
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+TABLE FOR SCOPE : 1
+PARENT SCOPE : -1
+lexeme		type		details
+----------------------------------------------------------------
+x		primitive		
+add		primitive		
+main		primitive		
+t		custom		n m 
+temp		t		
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+TABLE FOR SCOPE : 2
+PARENT SCOPE : 0
+lexeme		type		details
+----------------------------------------------------------------
+a		primitive		
+c		primitive		
+b		primitive		
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+TABLE FOR SCOPE : 3
+PARENT SCOPE : 0
+lexeme		type		details
+----------------------------------------------------------------
+t1		t		
+t2		t		
+t0		primitive		
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+TABLE FOR SCOPE : 4
+PARENT SCOPE : 2
+lexeme		type		details
+----------------------------------------------------------------
+i		primitive		
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+TABLE FOR SCOPE : 5
+PARENT SCOPE : 3
+lexeme		type		details
+----------------------------------------------------------------
+j		primitive		
+m		primitive		
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+
 +------------+--------------+---------------------------+---------------------------+----------------+---------------------------+--------------+-----------------------------+----------------+------------------------------------+--------------------------------------+---------------------------+---------------------------+---------------------------+-------------------+-----------------------------+-----------+---------------------------+--------------+-------------------------------+---------------------------+---------------------------+--------+
 |            | +            | fp_num                    | for                       | }              | return                    | -            | primitive                   | )              | (                                  | struct_or_union                      | int_num                   | enum                      | ;                         | void              | ,                           | =         | --                        | .            | {                             | ++                        | id                        | $      |
 +------------+--------------+---------------------------+---------------------------+----------------+---------------------------+--------------+-----------------------------+----------------+------------------------------------+--------------------------------------+---------------------------+---------------------------+---------------------------+-------------------+-----------------------------+-----------+---------------------------+--------------+-------------------------------+---------------------------+---------------------------+--------+
