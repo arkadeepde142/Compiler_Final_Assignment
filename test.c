@@ -1,13 +1,27 @@
-int A;
-float B;
-
-union node
+union t
 {
-    int x, y, z;
-} temp, temp1;
+    int m, n;
+} temp;
 
-void main()
+int add(int a, int b)
 {
-    union node t;
-    int a = temp.x + temp1.y;
+    int c = a + b;
+    return c;
+}
+
+int main()
+{
+    int i, j;
+    union t t1, t2;
+    for (i = 0; i < 5; ++i)
+    {
+        for (j = 0; j < 5; ++j)
+        {
+            int m = add(i, j);
+        }
+    }
+
+    float t1;
+
+    add(t1.m, t2.n);
 }

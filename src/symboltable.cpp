@@ -1,5 +1,5 @@
 #include <symboltable.hpp>
-
+#include <iostream>
 SymbolTable::SymbolTable() : nodes{vector<Node>(1)}
 {
 }
@@ -31,6 +31,7 @@ Row *SymbolTable::resolveVariable(string variableName)
         {
             return &(nodes[curr].variableMap.at(variableName));
         }
+        curr = nodes[curr].parent;
     }
     return nullptr;
 }
@@ -44,6 +45,7 @@ bool SymbolTable::canBeResolvedVariable(string variableName) const
         {
             return true;
         }
+        curr = nodes[curr].parent;
     }
     return false;
 }

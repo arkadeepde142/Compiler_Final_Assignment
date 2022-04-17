@@ -137,6 +137,15 @@ namespace parser
                     return -1;
                 }
             }
+            if (actions.find(siblings.size()) != actions.end())
+            {
+                vector<Symbol *> siblingPointers(siblings.size());
+                for (int j = 0; j < siblings.size(); ++j)
+                {
+                    siblingPointers[j] = &siblings[j];
+                }
+                actions.at(siblings.size())(*symbolPtr, siblingPointers);
+            }
             return curr;
         }
     }
