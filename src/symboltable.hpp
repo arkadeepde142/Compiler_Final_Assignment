@@ -28,6 +28,6 @@ public:
     bool isDeclaredInScope(string variableName) const;
     Row* resolveVariable(string variableName);
     bool canBeResolvedVariable(string variableName) const;
-    void declareVariable(string variableName, Row row);
+    bool declareVariable(string variableName, Row row);
 };
 #endif

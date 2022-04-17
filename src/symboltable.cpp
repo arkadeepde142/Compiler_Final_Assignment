@@ -1,6 +1,6 @@
 #include <symboltable.hpp>
 
-SymbolTable::SymbolTable(): nodes{vector<Node>(1)}
+SymbolTable::SymbolTable() : nodes{vector<Node>(1)}
 {
 }
 
@@ -22,14 +22,14 @@ bool SymbolTable::isDeclaredInScope(string variableName) const
     return nodes[currScope].variableMap.find(variableName) != nodes[currScope].variableMap.end();
 }
 
-Row* SymbolTable::resolveVariable(string variableName)
+Row *SymbolTable::resolveVariable(string variableName)
 {
     size_t curr = currScope;
-    while(curr != -1)
+    while (curr != -1)
     {
-        if(nodes[curr].variableMap.find(variableName) != nodes[curr].variableMap.end())
+        if (nodes[curr].variableMap.find(variableName) != nodes[curr].variableMap.end())
         {
-            return &(nodes[curr].variableMap.at(variableName)); 
+            return &(nodes[curr].variableMap.at(variableName));
         }
     }
     return nullptr;
@@ -38,9 +38,9 @@ Row* SymbolTable::resolveVariable(string variableName)
 bool SymbolTable::canBeResolvedVariable(string variableName) const
 {
     size_t curr = currScope;
-    while(curr != -1)
+    while (curr != -1)
     {
-        if(nodes[curr].variableMap.find(variableName) != nodes[curr].variableMap.end())
+        if (nodes[curr].variableMap.find(variableName) != nodes[curr].variableMap.end())
         {
             return true;
         }
@@ -48,7 +48,12 @@ bool SymbolTable::canBeResolvedVariable(string variableName) const
     return false;
 }
 
-void SymbolTable::declareVariable(string variableName, Row row)
+bool SymbolTable::declareVariable(string variableName, Row row)
 {
+    if (isDeclaredInScope(variableName))
+    {
+        return false;
+    }
     nodes[currScope].variableMap[variableName] = row;
+    return true;
 }

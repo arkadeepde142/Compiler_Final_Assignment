@@ -32,6 +32,9 @@ int main(int argc, char const **argv)
               string s = get_file_contents(argv[1]);
               CLexer lexer;
               lexer.generateLexemes(s);
+              for(auto lexeme : lexer.getLexemes()){
+                     cout<<lexeme.lexval<<" "<<lexeme.lineNum<<" "<<lexeme.colNum<<endl;
+              }
               if (lexer.isError())
               {
                      cerr << "Error at ";
