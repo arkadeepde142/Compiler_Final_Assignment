@@ -57,7 +57,7 @@ namespace parser
         void parse(vector<Symbol> const &symbols) const;
 
     private:
-        int parseUtil(vector<Symbol> const &, Symbol symbol, int index) const;
+        int parseUtil(vector<Symbol> const &, Symbol *symbolPtr, int index) const;
     };
 
     template <typename Symbol>
@@ -73,41 +73,43 @@ namespace parser
     template <typename Symbol>
     void Parser<Symbol>::parse(vector<Symbol> const &symbols) const
     {
+        auto start = startSymbol;
         vector<Symbol> s(symbols);
         s.push_back(Symbol());
-        int val = parseUtil(s, startSymbol, 0);
+        int val = parseUtil(s, &start, 0);
     }
 
     template <typename Symbol>
-    int Parser<Symbol>::parseUtil(vector<Symbol> const &symbols, Symbol symbol, int index) const
+    int Parser<Symbol>::parseUtil(vector<Symbol> const &symbols, Symbol *symbolPtr, int index) const
     {
-        if (symbols[index] == symbol)
+        if (symbols[index] == *symbolPtr)
         {
+            *symbolPtr = symbols[index];
             return index + 1;
         }
-        else if (parseTable.find(symbol) == parseTable.end())
+        else if (parseTable.find(*symbolPtr) == parseTable.end())
         {
-            if (symbol == epsilon)
+            if (*symbolPtr == epsilon)
             {
                 return index;
             }
             return -1;
         }
-        else if (parseTable.at(symbol).find(symbols[index]) == parseTable.at(symbol).end())
+        else if (parseTable.at(*symbolPtr).find(symbols[index]) == parseTable.at(*symbolPtr).end())
         {
             return -1;
         }
         else
         {
             int curr = index;
-            cout << symbol << " " << symbol.lexval << "#";
+            cout << *symbolPtr;
             cout << " -> ";
 
-            for (auto s : parseTable.at(symbol).at(symbols[index]).first)
+            for (auto s : parseTable.at(*symbolPtr).at(symbols[index]).first)
                 cout << s << " ";
             cout << endl;
-            auto const &prod = parseTable.at(symbol).at(symbols[index]).first;
-            auto const &actions = parseTable.at(symbol).at(symbols[index]).second;
+            auto const &prod = parseTable.at(*symbolPtr).at(symbols[index]).first;
+            auto const &actions = parseTable.at(*symbolPtr).at(symbols[index]).second;
 
             vector<Symbol> siblings(prod);
             for (int i = 0; i < siblings.size(); ++i)
@@ -119,10 +121,10 @@ namespace parser
                     {
                         siblingPointers[j] = &siblings[j];
                     }
-                    actions.at(i)(symbol, siblingPointers);
+                    actions.at(i)(*symbolPtr, siblingPointers);
                 }
 
-                curr = parseUtil(symbols, siblings[i], curr);
+                curr = parseUtil(symbols, &siblings[i], curr);
                 if (curr == -1)
                 {
                     return -1;
