@@ -10,7 +10,6 @@ namespace parser
 {
     using namespace std;
 
-
     template <typename Symbol>
     using Production = pair<vector<Symbol>, unordered_map<int, function<void(Symbol, vector<Symbol *>)>>>;
 
@@ -88,7 +87,7 @@ namespace parser
         }
         else if (parseTable.find(symbol) == parseTable.end())
         {
-            if(symbol == epsilon)
+            if (symbol == epsilon)
             {
                 return index;
             }
@@ -107,16 +106,16 @@ namespace parser
             for (auto s : parseTable.at(symbol).at(symbols[index]).first)
                 cout << s << " ";
             cout << endl;
-            auto const& prod = parseTable.at(symbol).at(symbols[index]).first;
-            auto const& actions = parseTable.at(symbol).at(symbols[index]).second;
+            auto const &prod = parseTable.at(symbol).at(symbols[index]).first;
+            auto const &actions = parseTable.at(symbol).at(symbols[index]).second;
 
             vector<Symbol> siblings(prod);
             for (int i = 0; i < prod.size(); ++i)
             {
-                if(actions.find(i) != actions.end())
+                if (actions.find(i) != actions.end())
                 {
                     vector<Symbol *> siblingPointers(i + 1);
-                    for(int j = 0; j <= i; ++j)
+                    for (int j = 0; j <= i; ++j)
                     {
                         siblingPointers[j] = &siblings[j];
                     }
@@ -128,8 +127,6 @@ namespace parser
                 {
                     return -1;
                 }
-
-                
             }
             return curr;
         }
