@@ -1,0 +1,6 @@
+struct node{
+    int f;  float g;
+};
+void main(){
+    struct Node n;
+}

@@ -237,6 +237,10 @@ using namespace parser;
 //     }, "#"s, "c"s)
 // {}
 
+void CParser::printSymbolTable(){
+    symbolTable.printSymbolTable();
+}
+
 CParser::CParser():Parser<Symbol>({
 {"c", { {{"primitive", "id", "c1", "c"}, {{2, [&](Symbol parent, vector<Symbol *> siblingPointers)
               {Row row; 
@@ -536,8 +540,8 @@ CParser::CParser():Parser<Symbol>({
                         siblingPointers[1]->type = row->type;
                     }
                     else{
-                        cerr<<"Error at line: "<<siblingPointers[1]->lineNum<<" and column: ";
-                        cerr<<siblingPointers[1]->colNum<<endl<< " identifier not declared ! "<<endl;
+                        cerr<<"Error at line: "<<siblingPointers[0]->lineNum<<" and column: ";
+                        cerr<<siblingPointers[0]->colNum<<endl<< " identifier not declared ! "<<endl;
                         exit(EXIT_FAILURE);
                     }
    
@@ -637,8 +641,8 @@ CParser::CParser():Parser<Symbol>({
                     }
                     else
                     {
-                        cerr<<"Error at line: "<<siblingPointers[1]->lineNum<<" and column: ";
-                        cerr<<siblingPointers[1]->colNum<<endl<< " identifier not declared ! "<<endl;
+                        cerr<<"Error at line: "<<siblingPointers[0]->lineNum<<" and column: ";
+                        cerr<<siblingPointers[0]->colNum<<endl<< " identifier not declared ! "<<endl;
                         exit(EXIT_FAILURE);
                     }
                 }}
@@ -656,8 +660,8 @@ CParser::CParser():Parser<Symbol>({
                     }
                     else
                     {
-                        cerr<<"Error at line: "<<siblingPointers[2]->lineNum<<" and column: ";
-                        cerr<<siblingPointers[2]->colNum<<endl<< " identifier not declared ! "<<endl;
+                        cerr<<"Error at line: "<<siblingPointers[1]->lineNum<<" and column: ";
+                        cerr<<siblingPointers[1]->colNum<<endl<< " identifier not declared ! "<<endl;
                         exit(EXIT_FAILURE);
                     }
                 }}
@@ -673,8 +677,8 @@ CParser::CParser():Parser<Symbol>({
                     }
                     else
                     {
-                        cerr<<"Error at line: "<<siblingPointers[2]->lineNum<<" and column: ";
-                        cerr<<siblingPointers[2]->colNum<<endl<< " identifier not declared ! "<<endl;
+                        cerr<<"Error at line: "<<siblingPointers[1]->lineNum<<" and column: ";
+                        cerr<<siblingPointers[1]->colNum<<endl<< " identifier not declared ! "<<endl;
                         exit(EXIT_FAILURE);
                     }
                 }}

@@ -48,6 +48,7 @@ int main(int argc, char const **argv)
                      if(isParsed)
                      {
                             cout << "Successfully Parsed" << endl;
+                            parser.printSymbolTable();
                      }
               }
        }

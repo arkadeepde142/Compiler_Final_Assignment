@@ -29,5 +29,6 @@ public:
     Row* resolveVariable(string variableName);
     bool canBeResolvedVariable(string variableName) const;
     bool declareVariable(string variableName, Row row);
+    void printSymbolTable();
 };
 #endif

@@ -10,5 +10,6 @@ private:
     SymbolTable symbolTable;
 public:
     CParser();
+    void printSymbolTable();
 };
 #endif
