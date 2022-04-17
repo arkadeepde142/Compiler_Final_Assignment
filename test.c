@@ -1,3 +1,5 @@
+int x = 0;
+
 union t
 {
     int m, n;
@@ -21,7 +23,7 @@ int main()
         }
     }
 
-    float t1;
+    float t0;
 
     add(t1.m, t2.n);
 }

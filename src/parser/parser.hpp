@@ -77,7 +77,7 @@ namespace parser
         vector<Symbol> s(symbols);
         s.push_back(Symbol());
         int val = parseUtil(s, &start, 0);
-        return val == s.size();
+        return val == s.size() - 1;
     }
 
     template <typename Symbol>
