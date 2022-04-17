@@ -54,7 +54,7 @@ namespace parser
     public:
         Parser(Grammar<Symbol> grammar, Symbol epsilon, Symbol start);
         vector<Production<Symbol>> getLMD(vector<Symbol> const &symbols) const;
-        void parse(vector<Symbol> const &symbols) const;
+        bool parse(vector<Symbol> const &symbols) const;
 
     private:
         int parseUtil(vector<Symbol> const &, Symbol *symbolPtr, int index) const;
@@ -71,12 +71,13 @@ namespace parser
     }
 
     template <typename Symbol>
-    void Parser<Symbol>::parse(vector<Symbol> const &symbols) const
+    bool Parser<Symbol>::parse(vector<Symbol> const &symbols) const
     {
         auto start = startSymbol;
         vector<Symbol> s(symbols);
         s.push_back(Symbol());
         int val = parseUtil(s, &start, 0);
+        return val == s.size();
     }
 
     template <typename Symbol>
@@ -93,10 +94,16 @@ namespace parser
             {
                 return index;
             }
+            cerr << "Error at line: " << symbols[index].lineNum;
+            cerr << " and column: " << symbols[index].colNum;
+            cerr << endl;
             return -1;
         }
         else if (parseTable.at(*symbolPtr).find(symbols[index]) == parseTable.at(*symbolPtr).end())
         {
+            cerr << "Error at line: " << symbols[index].lineNum;
+            cerr << " and column: " << symbols[index].colNum;
+            cerr << endl;
             return -1;
         }
         else

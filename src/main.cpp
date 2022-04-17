@@ -44,7 +44,11 @@ int main(int argc, char const **argv)
               else
               {
                      CParser parser;
-                     parser.parse(lexer.getLexemes());
+                     bool isParsed = parser.parse(lexer.getLexemes());
+                     if(isParsed)
+                     {
+                            cout << "Successfully Parsed" << endl;
+                     }
               }
        }
        else

@@ -28,7 +28,7 @@ CParser::CParser():Parser<Symbol>({
                      cerr<<siblingPointers[1]->colNum<<endl<< " variable already declared ! "<<endl;
               }
               }}}},
-       {{"struct_or_union" , "id" , "struct_def", "c"}, {{1, [&](Symbol parent, vector<Symbol *> siblingPointers)
+       {{"struct_or_union" , "id" , "struct_def", "c"}, {{2, [&](Symbol parent, vector<Symbol *> siblingPointers)
               {
               Row row;
               string k = siblingPointers[1]->lexval;
@@ -41,7 +41,7 @@ CParser::CParser():Parser<Symbol>({
                      exit(EXIT_FAILURE);
               }
               }}}},
-       {{"enum" , "id" ,"enum_def", "c"} , {{1, [&](Symbol parent, vector<Symbol *> siblingPointers)
+       {{"enum" , "id" ,"enum_def", "c"} , {{2, [&](Symbol parent, vector<Symbol *> siblingPointers)
               {
               Row row;
               string k = siblingPointers[1]->lexval;
@@ -64,7 +64,7 @@ CParser::CParser():Parser<Symbol>({
   {"c1", { {{"(", "paramlist" , ")", "c2" }, {{1, [&](Symbol parent, vector<Symbol *> siblingPointers){ symbolTable.openScope(); }}}},
             {{";" }, {{0, [](Symbol parent, vector<Symbol *> siblingPointers){ /*semantic action */ }}}},
             {{"W",";" }, {{0, [](Symbol parent, vector<Symbol *> siblingPointers){ /*semantic action */ }}}},
-            {{",", "var_list" , ";" }, {{0, [](Symbol parent, vector<Symbol *> siblingPointers)
+            {{",", "var_list" , ";" }, {{1, [](Symbol parent, vector<Symbol *> siblingPointers)
               { 
                      siblingPointers[1]->aspect = "declaration";
                      siblingPointers[1]->type = "primitive";
