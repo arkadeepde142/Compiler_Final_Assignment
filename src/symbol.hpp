@@ -15,6 +15,10 @@ struct Symbol
     Symbol();
     Symbol(std::string s);
     Symbol(char const* s);
+    operator std::string()
+    {
+        return tokenName;
+    }
 };
 
 bool operator==(Symbol const& symbol1, Symbol const& symbol2);

@@ -5,6 +5,7 @@
 #include <functional>
 #include <vector>
 #include <iostream>
+#include <tabulate.hpp>
 
 namespace parser
 {
@@ -55,6 +56,7 @@ namespace parser
         Parser(Grammar<Symbol> grammar, Symbol epsilon, Symbol start);
         vector<Production<Symbol>> getLMD(vector<Symbol> const &symbols) const;
         bool parse(vector<Symbol> const &symbols) const;
+        void printParseTable() const;
 
     private:
         int parseUtil(vector<Symbol> const &, Symbol *symbolPtr, int index) const;
@@ -358,6 +360,75 @@ namespace parser
             }
         }
         return parseTable;
+    }
+
+    template <typename Symbol>
+    void Parser<Symbol>::printParseTable() const
+    {
+        tabulate::Table table;
+        unordered_set<Symbol> terminals;
+        vector<Symbol> nonTerminals;
+
+        for (auto const &[_, val] : parseTable)
+        {
+            nonTerminals.push_back(_);
+            for (auto const &[key, _] : val)
+            {
+                terminals.insert(key);
+            }
+        }
+
+        vector<Symbol> terminalsOrdered;
+        for (auto x : terminals)
+        {
+            if (x != Symbol())
+                terminalsOrdered.push_back(x);
+        }
+        terminalsOrdered.push_back(Symbol());
+
+        vector<vector<string>> tableValues(nonTerminals.size() + 1,
+                                           vector<string>(terminals.size() + 1, "Error"));
+        tableValues[0][0] = "";
+        for (int i = 1; i < tableValues.size(); ++i)
+        {
+            tableValues[i][0] = nonTerminals[i - 1];
+        }
+
+        for (int i = 1; i < tableValues[0].size(); ++i)
+        {
+            tableValues[0][i] = terminalsOrdered[i - 1];
+        }
+
+        tableValues[0].back() = "$";
+
+        for (int i = 1; i < tableValues.size(); ++i)
+        {
+            for (int j = 1; j < tableValues[0].size(); ++j)
+            {
+                if (parseTable.at(nonTerminals[i - 1]).find(terminalsOrdered[j - 1]) != parseTable.at(nonTerminals[i - 1]).end())
+                {
+                    tableValues[i][j] = nonTerminals[i - 1];
+                    tableValues[i][j] += " ->";
+                    for (auto p : parseTable.at(nonTerminals[i - 1]).at(terminalsOrdered[j - 1]).first)
+                    {
+                        tableValues[i][j] += " ";
+                        tableValues[i][j] += p;
+                    }
+                }
+            }
+        }
+
+        for (auto const &_row : tableValues)
+        {
+            vector<variant<std::string, const char *, std::string_view, tabulate::Table>> row;
+            for (string x : _row)
+            {
+                row.push_back(x);
+            }
+            table.add_row(row);
+        }
+
+        cout << table << endl;
     }
 
 } // namespace parser
