@@ -102,10 +102,11 @@ void CLexer::generateLexemes(std::string s)
     {
         colNum = start - colStart + 1;
         start = lex(s, start);
-        if (start > s.size())
-        {
-            error = true;
-        }
+    }
+
+    if(start != s.size())
+    {
+        error = true;
     }
 }
 
