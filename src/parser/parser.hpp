@@ -100,7 +100,7 @@ namespace parser
         else
         {
             int curr = index;
-            cout << symbol;
+            cout << symbol << " " << symbol.lexval << "#";
             cout << " -> ";
 
             for (auto s : parseTable.at(symbol).at(symbols[index]).first)
@@ -110,7 +110,7 @@ namespace parser
             auto const &actions = parseTable.at(symbol).at(symbols[index]).second;
 
             vector<Symbol> siblings(prod);
-            for (int i = 0; i < prod.size(); ++i)
+            for (int i = 0; i < siblings.size(); ++i)
             {
                 if (actions.find(i) != actions.end())
                 {
@@ -122,7 +122,7 @@ namespace parser
                     actions.at(i)(symbol, siblingPointers);
                 }
 
-                curr = parseUtil(symbols, prod[i], curr);
+                curr = parseUtil(symbols, siblings[i], curr);
                 if (curr == -1)
                 {
                     return -1;
