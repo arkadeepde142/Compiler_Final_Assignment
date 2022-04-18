@@ -3,9 +3,12 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <functional>
+#include <iostream>
 #include <vector>
+#include <tnode.hpp>
 #include <iostream>
 #include <tabulate.hpp>
+using namespace std;
 
 namespace parser
 {
@@ -51,20 +54,25 @@ namespace parser
         const ParseTable<Symbol> parseTable;
         const Symbol startSymbol;
         const Symbol epsilon;
+        tnode root;
+        int nv = 1;
 
     public:
         Parser(Grammar<Symbol> grammar, Symbol epsilon, Symbol start);
         vector<Production<Symbol>> getLMD(vector<Symbol> const &symbols) const;
-        bool parse(vector<Symbol> const &symbols) const;
+        bool parse(vector<Symbol> const &symbols);
         void printParseTable() const;
+        void drawParseTree();
 
     private:
-        int parseUtil(vector<Symbol> const &, Symbol *symbolPtr, int index) const;
+        int parseUtil(vector<Symbol> const &, Symbol *symbolPtr, int index, tnode* curr);
     };
 
     template <typename Symbol>
-    Parser<Symbol>::Parser(Grammar<Symbol> grammar, Symbol epsilon, Symbol start) : parseTable(createParseTable(grammar, epsilon, start)), epsilon(epsilon), startSymbol(start)
+    Parser<Symbol>::Parser(Grammar<Symbol> grammar, Symbol epsilon, Symbol start) : parseTable(createParseTable(grammar, epsilon, start)), epsilon(epsilon), startSymbol(start),
+    root{tnode(startSymbol.tokenName)}
     {
+        
     }
 
     template <typename Symbol>
@@ -73,17 +81,17 @@ namespace parser
     }
 
     template <typename Symbol>
-    bool Parser<Symbol>::parse(vector<Symbol> const &symbols) const
+    bool Parser<Symbol>::parse(vector<Symbol> const &symbols)
     {
         auto start = startSymbol;
         vector<Symbol> s(symbols);
         s.push_back(Symbol());
-        int val = parseUtil(s, &start, 0);
+        int val = parseUtil(s, &start, 0, &root);
         return val == s.size() - 1;
     }
 
     template <typename Symbol>
-    int Parser<Symbol>::parseUtil(vector<Symbol> const &symbols, Symbol *symbolPtr, int index) const
+    int Parser<Symbol>::parseUtil(vector<Symbol> const &symbols, Symbol *symbolPtr, int index, tnode* currPtr)
     {
         if (symbols[index] == *symbolPtr)
         {
@@ -132,8 +140,10 @@ namespace parser
                     }
                     actions.at(i)(*symbolPtr, siblingPointers);
                 }
-
-                curr = parseUtil(symbols, &siblings[i], curr);
+                tnode *nextPointer = new tnode(string(siblings[i]));
+                currPtr->root.push_back(nextPointer);
+                nv += 1;
+                curr = parseUtil(symbols, &siblings[i], curr, nextPointer);
                 if (curr == -1)
                 {
                     return -1;
@@ -439,6 +449,13 @@ namespace parser
         }
 
         cout << table << endl;
+    }
+
+    template <typename Symbol>
+    void Parser<Symbol>::drawParseTree()
+    {
+        vector<bool> flag(nv, true);
+        printNaryTree(&root, flag);
     }
 
 } // namespace parser

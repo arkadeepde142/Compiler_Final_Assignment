@@ -50,6 +50,7 @@ int main(int argc, char const **argv)
                      {
                             cout << "Successfully Parsed" << endl;
                             parser.printSymbolTable();
+                            parser.drawParseTree();
                      }
               }
        }
