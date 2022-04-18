@@ -1,3 +1,100 @@
+
+****************     FIRST SETS    ******************
+
+first set of ( enum_def )   =>   { {,  } , 
+first set of ( condn )   =>   { (,  } , 
+first set of ( c1 )   =>   { =, ,, ;, (,  } , 
+first set of ( paramlist )   =>   { ,, enum, struct_or_union, #, primitive,  } , 
+first set of ( scope_end )   =>   { },  } , 
+first set of ( SM )   =>   { primitive,  } , 
+first set of ( U )   =>   { primitive,  } , 
+first set of ( c )   =>   { enum, struct_or_union, void, #, primitive,  } , 
+first set of ( var_list )   =>   { id,  } , 
+first set of ( Y )   =>   { #, ., (, =,  } , 
+first set of ( var_list' )   =>   { #, ,,  } , 
+first set of ( c2 )   =>   { {,  } , 
+first set of ( params' )   =>   { #, ,,  } , 
+first set of ( ret_var )   =>   { #, id, fp_num, int_num,  } , 
+first set of ( param )   =>   { enum, struct_or_union, primitive,  } , 
+first set of ( SM' )   =>   { #, primitive,  } , 
+first set of ( struct_def )   =>   { {,  } , 
+first set of ( loop )   =>   { for,  } , 
+first set of ( constant )   =>   { fp_num, int_num,  } , 
+first set of ( ret )   =>   { return,  } , 
+first set of ( stmtList )   =>   { #, enum, int_num, struct_or_union, id, ++, primitive, return, fp_num, --, for, ;,  } , 
+first set of ( block )   =>   { {,  } , 
+first set of ( params )   =>   { ,, enum, struct_or_union, #, primitive,  } , 
+first set of ( arglist )   =>   { #, int_num, fp_num, id,  } , 
+first set of ( stmt )   =>   { enum, int_num, struct_or_union, ++, return, fp_num, id, --, primitive, ;,  } , 
+first set of ( something )   =>   { enum, #, struct_or_union, int_num, ++, return, fp_num, id, --, primitive,  } , 
+first set of ( args )   =>   { int_num, fp_num, id,  } , 
+first set of ( WW )   =>   { #, =,  } , 
+first set of ( V )   =>   { --, int_num, ++, fp_num, id, (,  } , 
+first set of ( stmt3 )   =>   { #, --, ++,  } , 
+first set of ( fn )   =>   { (,  } , 
+first set of ( prefix_op )   =>   { --, ++,  } , 
+first set of ( D )   =>   { #, id,  } , 
+first set of ( F )   =>   { #, ., (,  } , 
+first set of ( stmt2 )   =>   { #, id,  } , 
+first set of ( arg )   =>   { int_num, fp_num, id,  } , 
+first set of ( args' )   =>   { #, ,,  } , 
+first set of ( stmt1 )   =>   { id, primitive,  } , 
+first set of ( E' )   =>   { #, -, +,  } , 
+first set of ( exprsn )   =>   { int_num, fp_num, id, (,  } , 
+first set of ( Z )   =>   { #, ,, =,  } , 
+first set of ( W )   =>   { =,  } , 
+first set of ( T )   =>   { int_num, fp_num, id, (,  } , 
+first set of ( dot )   =>   { #, .,  } , 
+
+
+****************     FOLLOW SETS    ******************
+
+follow set of ( enum_def )   =>   { enum, struct_or_union, void, , primitive,  } , 
+follow set of ( condn )   =>   { {,  } , 
+follow set of ( SM )   =>   { },  } , 
+follow set of ( U )   =>   { primitive, },  } , 
+follow set of ( params' )   =>   { ),  } , 
+follow set of ( struct_def )   =>   { enum, struct_or_union, void, , primitive,  } , 
+follow set of ( SM' )   =>   { },  } , 
+follow set of ( loop )   =>   { enum, int_num, struct_or_union, fp_num, id, ++, return, primitive, --, for, ;, },  } , 
+follow set of ( c1 )   =>   { enum, struct_or_union, void, , primitive,  } , 
+follow set of ( var_list' )   =>   { }, ;,  } , 
+follow set of ( c2 )   =>   { enum, struct_or_union, void, , primitive,  } , 
+follow set of ( scope_end )   =>   { fp_num, id, ++, primitive, return, }, , enum, int_num, struct_or_union, for, ;, void, --,  } , 
+follow set of ( paramlist )   =>   { ),  } , 
+follow set of ( block )   =>   { fp_num, id, ++, primitive, return, }, , int_num, enum, struct_or_union, for, ;, void, --,  } , 
+follow set of ( params )   =>   { ),  } , 
+follow set of ( constant )   =>   { -, +, ,, ;, ),  } , 
+follow set of ( stmtList )   =>   { },  } , 
+follow set of ( ret )   =>   { ;,  } , 
+follow set of ( args )   =>   { ),  } , 
+follow set of ( stmt1 )   =>   { ;,  } , 
+follow set of ( args' )   =>   { ),  } , 
+follow set of ( param )   =>   { ,, ),  } , 
+follow set of ( ret_var )   =>   { ;,  } , 
+follow set of ( D )   =>   { ;,  } , 
+follow set of ( F )   =>   { -, +, ;, ),  } , 
+follow set of ( stmt2 )   =>   { ;,  } , 
+follow set of ( arg )   =>   { ,, ),  } , 
+follow set of ( W )   =>   { ;,  } , 
+follow set of ( Z )   =>   { ;,  } , 
+follow set of ( arglist )   =>   { ),  } , 
+follow set of ( stmt )   =>   { enum, int_num, struct_or_union, fp_num, id, ++, return, primitive, --, for, ;, },  } , 
+follow set of ( something )   =>   { ;,  } , 
+follow set of ( V )   =>   { ;,  } , 
+follow set of ( stmt3 )   =>   { ),  } , 
+follow set of ( fn )   =>   { enum, struct_or_union, void, , primitive,  } , 
+follow set of ( prefix_op )   =>   { ;, ),  } , 
+follow set of ( WW )   =>   { ;,  } , 
+follow set of ( exprsn )   =>   { ;, ),  } , 
+follow set of ( Y )   =>   { ;,  } , 
+follow set of ( E' )   =>   { ;, ),  } , 
+follow set of ( T )   =>   { -, +, ;, ),  } , 
+follow set of ( dot )   =>   { -, +, ,, ;, ),  } , 
+follow set of ( var_list )   =>   { }, ;,  } , 
+follow set of ( c )   =>   { ,  } , 
+
+
 c -> primitive id c1 c 
 c1 -> W ; 
 W -> = V 
@@ -141,62 +238,6 @@ args' -> #
 stmtList -> # 
 scope_end -> } 
 c -> # 
-Successfully Parsed
-*************    SYMBOL TABLE    *****************
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-TABLE FOR SCOPE : 1
-PARENT SCOPE : -1
-lexeme		type		details
-----------------------------------------------------------------
-x		primitive		
-add		primitive		
-main		primitive		
-t		custom		n m 
-temp		t		
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-TABLE FOR SCOPE : 2
-PARENT SCOPE : 0
-lexeme		type		details
-----------------------------------------------------------------
-a		primitive		
-c		primitive		
-b		primitive		
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-TABLE FOR SCOPE : 3
-PARENT SCOPE : 0
-lexeme		type		details
-----------------------------------------------------------------
-t1		t		
-t2		t		
-t0		primitive		
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-TABLE FOR SCOPE : 4
-PARENT SCOPE : 2
-lexeme		type		details
-----------------------------------------------------------------
-i		primitive		
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-TABLE FOR SCOPE : 5
-PARENT SCOPE : 3
-lexeme		type		details
-----------------------------------------------------------------
-j		primitive		
-m		primitive		
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-
 +------------+--------------+---------------------------+---------------------------+----------------+---------------------------+--------------+-----------------------------+----------------+------------------------------------+--------------------------------------+---------------------------+---------------------------+---------------------------+-------------------+-----------------------------+-----------+---------------------------+--------------+-------------------------------+---------------------------+---------------------------+--------+
 |            | +            | fp_num                    | for                       | }              | return                    | -            | primitive                   | )              | (                                  | struct_or_union                      | int_num                   | enum                      | ;                         | void              | ,                           | =         | --                        | .            | {                             | ++                        | id                        | $      |
 +------------+--------------+---------------------------+---------------------------+----------------+---------------------------+--------------+-----------------------------+----------------+------------------------------------+--------------------------------------+---------------------------+---------------------------+---------------------------+-------------------+-----------------------------+-----------+---------------------------+--------------+-------------------------------+---------------------------+---------------------------+--------+
@@ -288,3 +329,59 @@ m		primitive
 +------------+--------------+---------------------------+---------------------------+----------------+---------------------------+--------------+-----------------------------+----------------+------------------------------------+--------------------------------------+---------------------------+---------------------------+---------------------------+-------------------+-----------------------------+-----------+---------------------------+--------------+-------------------------------+---------------------------+---------------------------+--------+
 | dot        | dot -> #     | Error                     | Error                     | Error          | Error                     | dot -> #     | Error                       | dot -> #       | Error                              | Error                                | Error                     | Error                     | dot -> #                  | Error             | dot -> #                    | Error     | Error                     | dot -> . id  | Error                         | Error                     | Error                     | Error  |
 +------------+--------------+---------------------------+---------------------------+----------------+---------------------------+--------------+-----------------------------+----------------+------------------------------------+--------------------------------------+---------------------------+---------------------------+---------------------------+-------------------+-----------------------------+-----------+---------------------------+--------------+-------------------------------+---------------------------+---------------------------+--------+
+Successfully Parsed
+*************    SYMBOL TABLE    *****************
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+TABLE FOR SCOPE : 1
+PARENT SCOPE : -1
+lexeme		type		details
+----------------------------------------------------------------
+x		primitive		
+add		primitive		
+main		primitive		
+t		custom		n m 
+temp		t		
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+TABLE FOR SCOPE : 2
+PARENT SCOPE : 0
+lexeme		type		details
+----------------------------------------------------------------
+a		primitive		
+c		primitive		
+b		primitive		
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+TABLE FOR SCOPE : 3
+PARENT SCOPE : 0
+lexeme		type		details
+----------------------------------------------------------------
+t1		t		
+t2		t		
+t0		primitive		
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+TABLE FOR SCOPE : 4
+PARENT SCOPE : 2
+lexeme		type		details
+----------------------------------------------------------------
+i		primitive		
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+TABLE FOR SCOPE : 5
+PARENT SCOPE : 3
+lexeme		type		details
+----------------------------------------------------------------
+j		primitive		
+m		primitive		
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+

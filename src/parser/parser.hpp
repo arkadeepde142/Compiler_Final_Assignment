@@ -160,13 +160,14 @@ namespace parser
         {
             generateFirstSetRecur(grammar, s, sets, epsilon);
         }
-        // for(auto const& [s,a] : sets ){
-        //     cout<< s << " => ";
-        //     for (auto x : a){
-        //         cout<<x<<", ";
-        //     }
-        //     cout<<endl;
-        // }
+        cout<< "\n****************     FIRST SETS    ******************\n\n";
+        for(auto const& [s,a] : sets ){
+            cout<<"first set of ( "<< s << " )   =>   { ";
+            for (auto x : a){
+                cout<<x<<", ";
+            }
+            cout<<" } , "<<endl;
+        }
         return sets;
     }
 
@@ -300,6 +301,15 @@ namespace parser
         {
             generateFollowSetRecur(grammar, s, sets, epsilon, firstSets, start);
         }
+        cout<<"\n\n****************     FOLLOW SETS    ******************\n\n";
+        for(auto const& [s,a] : sets ){
+            cout<<"follow set of ( "<< s << " )   =>   { ";
+            for (auto x : a){
+                cout<<x<<", ";
+            }
+            cout<<" } , "<<endl;
+        }
+        cout<<"\n\n";
         return sets;
     }
 
