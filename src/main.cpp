@@ -46,9 +46,9 @@ int main(int argc, char const **argv)
                      CParser parser;
                      bool isParsed = parser.parse(lexer.getLexemes());
                      if(isParsed)
-                     parser.printParseTable();
                      {
                             cout << "Successfully Parsed" << endl;
+                            parser.printParseTable();
                             parser.printSymbolTable();
                             parser.drawParseTree();
                      }
