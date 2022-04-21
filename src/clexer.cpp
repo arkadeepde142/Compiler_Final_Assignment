@@ -3,8 +3,12 @@
 #include <string>
 
 using namespace std;
+string digits = "(1|2|3|4|5|6|7|8|9|0)";
+string lowercaseAlpha = "(q|w|e|r|t|y|u|i|o|p|a|s|d|f|g|h|j|k|l|z|x|c|v|b|n|m)";
+string uppercaseAlpha = "(Q|W|E|R|T|Y|U|I|O|P|A|S|D|F|G|H|J|K|L|Z|X|C|V|B|N|M)";
+string specialChars = R"((_|\\n|\\t|\\v|\\f|\\b|\\r|\\a|\\e))"s;
 CLexer::CLexer() : lexer::Lexer({
-                       {R"(+|++|-|--|{|}|\(|\)|=|;|void|enum|.|,|for|return|break)"s,
+                       {R"(+|++|-|--|{|}|\(|\)|=|;|void|.|,|while|return|break)"s,
                         [&](string s, unsigned long i)
                         {
                             Symbol symbol(s);
@@ -13,19 +17,19 @@ CLexer::CLexer() : lexer::Lexer({
                             symbol.colNum = i - colStart + 1;
                             lexemes.push_back(symbol);
                         }},
-                       {"struct|union"s,
+                       {"char"s,
                         [&](string s, unsigned long i)
                         {
-                            Symbol symbol("struct_or_union");
+                            Symbol symbol("char");
                             symbol.lineNum = line;
                             symbol.lexval = s;
                             symbol.colNum = i - colStart + 1;
                             lexemes.push_back(symbol);
                         }},
-                       {"int|float"s,
+                        {"string"s,
                         [&](string s, unsigned long i)
                         {
-                            Symbol symbol("primitive");
+                            Symbol symbol("string");
                             symbol.lineNum = line;
                             symbol.lexval = s;
                             symbol.colNum = i - colStart + 1;
@@ -40,7 +44,7 @@ CLexer::CLexer() : lexer::Lexer({
                             line += 1;
                             colStart = i + 1;
                         }},
-                       {">|<"s,
+                       {">|<|<=|>="s,
                         [&](string s, unsigned long i)
                         {
                             Symbol symbol("relop");
@@ -49,7 +53,8 @@ CLexer::CLexer() : lexer::Lexer({
                             symbol.colNum = i - colStart + 1;
                             lexemes.push_back(symbol);
                         }},
-                       {"(q|w|e|r|t|y|u|i|o|p|a|s|d|f|g|h|j|k|l|z|x|c|v|b|n|m|_|Q|W|E|R|T|Y|U|I|O|P|A|S|D|F|G|H|J|K|L|Z|X|C|V|B|N|M)(q|w|e|r|t|y|u|i|o|p|a|s|d|f|g|h|j|k|l|z|x|c|v|b|n|m|_|Q|W|E|R|T|Y|U|I|O|P|A|S|D|F|G|H|J|K|L|Z|X|C|V|B|N|M|1|2|3|4|5|6|7|8|9|0)*"s,
+                       {"(" + lowercaseAlpha + "|" + uppercaseAlpha + "|_)" + "(" +
+                    lowercaseAlpha + "|" + uppercaseAlpha + "|_|" + digits + ")*",
                         [&](string s, unsigned long i)
                         {
                             Symbol symbol("id");
@@ -58,7 +63,7 @@ CLexer::CLexer() : lexer::Lexer({
                             symbol.colNum = i - colStart + 1;
                             lexemes.push_back(symbol);
                         }},
-                       {"(1|2|3|4|5|6|7|8|9|0)(1|2|3|4|5|6|7|8|9|0)*"s,
+                       {digits + "*"s,
                         [&](string s, unsigned long i)
                         {
                             Symbol symbol("int_num");
@@ -67,15 +72,26 @@ CLexer::CLexer() : lexer::Lexer({
                             symbol.colNum = i - colStart + 1;
                             lexemes.push_back(symbol);
                         }},
-                       {"(1|2|3|4|5|6|7|8|9|0)(1|2|3|4|5|6|7|8|9|0)*.(1|2|3|4|5|6|7|8|9|0)(1|2|3|4|5|6|7|8|9|0)*"s,
+                        {"'(" + lowercaseAlpha + "|" + uppercaseAlpha + "|" + digits + "|" + specialChars + ")'"s,
                         [&](string s, unsigned long i)
                         {
-                            Symbol symbol("fp_num");
+                            Symbol symbol("char_literal");
                             symbol.lineNum = line;
+                            symbol.lexval = s;
                             symbol.colNum = i - colStart + 1;
                             lexemes.push_back(symbol);
-                        }},
-
+                        }
+                        },
+                        {"\"(" + lowercaseAlpha + "|" + uppercaseAlpha + "|" + digits + "|" + specialChars + ")*\""s,
+                        [&](string s, unsigned long i)
+                        {
+                            Symbol symbol("string_literal");
+                            symbol.lineNum = line;
+                            symbol.lexval = s;
+                            symbol.colNum = i - colStart + 1;
+                            lexemes.push_back(symbol);
+                        }
+                        },
                    })
 {
 }
@@ -84,6 +100,8 @@ unsigned long CLexer::getLine() const
 {
     return line;
 }
+
+// {|}|\\(|\\))|\\\\|.|;|:|\"|\'|>|<|\\|)
 
 unsigned long CLexer::getColNum() const
 {

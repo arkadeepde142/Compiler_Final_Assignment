@@ -6,9 +6,9 @@
 #include <iostream>
 #include <vector>
 #include <tnode.hpp>
+#include <iomanip>
 #include <iostream>
 #include <tabulate.hpp>
-using namespace std;
 
 namespace parser
 {
@@ -170,14 +170,34 @@ namespace parser
         {
             generateFirstSetRecur(grammar, s, sets, epsilon);
         }
-        cout<< "\n****************     FIRST SETS    ******************\n\n";
-        for(auto const& [s,a] : sets ){
-            cout<<"first set of ( "<< s << " )   =>   { ";
-            for (auto x : a){
-                cout<<x<<", ";
+
+        cout << "FIRST SET\n";
+        tabulate::Table table;
+        vector<vector<string>> tableValues = {{"Non-Terminal", "First Set"}};
+        // cout<< "\n****************     FIRST SETS    ******************\n\n";
+        for(auto const& [s,set] : sets ){
+            // cout<<"first set of ( "<< s << " )   =>   { ";
+            string setString;
+            for (auto x : set){
+                string temp = "\"" +string(x)+"\"";
+                setString += ( temp + ", ");
             }
-            cout<<" } , "<<endl;
+            setString.pop_back();
+            setString.pop_back();
+            setString = "{ " + setString + " }";
+            vector<string> temp = {s, setString};
+            tableValues.push_back(temp);
         }
+        for (auto const &_row : tableValues)
+        {
+            vector<variant<std::string, const char *, std::string_view, tabulate::Table>> row;
+            for (string x : _row)
+            {
+                row.push_back(x);
+            }
+            table.add_row(row);
+        }
+        cout << table << '\n' << endl;
         return sets;
     }
 
@@ -311,15 +331,42 @@ namespace parser
         {
             generateFollowSetRecur(grammar, s, sets, epsilon, firstSets, start);
         }
-        cout<<"\n\n****************     FOLLOW SETS    ******************\n\n";
-        for(auto const& [s,a] : sets ){
-            cout<<"follow set of ( "<< s << " )   =>   { ";
-            for (auto x : a){
-                cout<<x<<", ";
+        // cout<<"\n\n****************     FOLLOW SETS    ******************\n\n";
+        // for(auto const& [s,a] : sets ){
+        //     cout<<"follow set of ( "<< s << " )   =>   { ";
+        //     for (auto x : a){
+        //         cout<<x<<", ";
+        //     }
+        //     cout<<" } , "<<endl;
+        // }
+        // cout<<"\n\n";
+        cout << "FOLLOW SET\n";
+        tabulate::Table table;
+        vector<vector<string>> tableValues = {{"Non-Terminal", "Follow Set"}};
+        // cout<< "\n****************     FIRST SETS    ******************\n\n";
+        for(auto const& [s,set] : sets ){
+            // cout<<"first set of ( "<< s << " )   =>   { ";
+            string setString;
+            for (auto x : set){
+                string temp = "\"" +(string(x).empty() ? "$"s : string(x))+"\"";
+                setString += ( temp + ", ");
             }
-            cout<<" } , "<<endl;
+            setString.pop_back();
+            setString.pop_back();
+            setString = "{ " + setString + " }";
+            vector<string> temp = {s, setString};
+            tableValues.push_back(temp);
         }
-        cout<<"\n\n";
+        for (auto const &_row : tableValues)
+        {
+            vector<variant<std::string, const char *, std::string_view, tabulate::Table>> row;
+            for (string x : _row)
+            {
+                row.push_back(x);
+            }
+            table.add_row(row);
+        }
+        cout << table << "\n" << endl;
         return sets;
     }
 

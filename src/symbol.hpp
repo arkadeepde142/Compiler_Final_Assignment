@@ -15,7 +15,7 @@ struct Symbol
     Symbol();
     Symbol(std::string s);
     Symbol(char const* s);
-    operator std::string()
+    operator std::string() const
     {
         return tokenName;
     }

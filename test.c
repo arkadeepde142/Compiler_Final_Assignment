@@ -1,25 +1,19 @@
-int x = 0;
-union t
+void main()
 {
-    int m, n;
-} temp;
-int add(int a, int b)
-{
-    int c = a + b;
-    return temp.m;
-}
-int main()
-{
-    union t t1, t2;
-    for (int i = 0; i < 5; ++i)
+    char c = 'a';
+    string s = "\n";
+    while(c < 4)
     {
-        for (int j = 0; j < 5; ++j)
-        {
-            int m = add(i, j);
-        }
+        char c = 'a';
+        while(c < 5)
+        {}
     }
-
-    float t0;
-
-    add(t1.m, t2.n);
 }
+
+char func(char a, char b)
+{
+    char c = a + b;
+    return c;
+}
+
+

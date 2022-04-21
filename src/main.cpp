@@ -44,12 +44,17 @@ int main(int argc, char const **argv)
               else
               {
                      CParser parser;
+                     cout << "PARSE TABLE\n";
+                     parser.printParseTable();
+                     cout << "\n\n";
+                     cout << "PRODUCTIONS TAKEN\n\n";
                      bool isParsed = parser.parse(lexer.getLexemes());
                      if(isParsed)
                      {
                             cout << "Successfully Parsed" << endl;
-                            parser.printParseTable();
+                            cout << "\n\n";
                             parser.printSymbolTable();
+                            cout << "PARSE TREE\n";
                             parser.drawParseTree();
                      }
               }

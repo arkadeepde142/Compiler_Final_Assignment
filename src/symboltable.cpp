@@ -63,19 +63,19 @@ bool SymbolTable::declareVariable(string variableName, Row row)
 
 void SymbolTable::printSymbolTable()
 {
-    cout<<"*************    SYMBOL TABLE    *****************"<<endl;
+    cout<<"SYMBOL TABLE"<<endl;
     std::cout << std::setw(40);
     int i = 1;
     for(auto node : nodes){
         cout<<"- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n";
         cout<<"TABLE FOR SCOPE : "<<i<<"\n";
         cout<<"PARENT SCOPE : "<<node.parent<<"\n";
-        cout<<"lexeme\t\ttype\t\tdetails"<<"\n";
+        cout<<"lexeme\t\ttype"<<"\n";
         cout<<"----------------------------------------------------------------\n";
         for(auto r : node.variableMap){
             cout<<r.first<<"\t\t"<<r.second.type<<"\t\t";
-            for(auto detail : r.second.details)
-            cout<<detail<<" ";
+            // for(auto detail : r.second.details)
+            // cout<<detail<<" ";
             cout<<endl;
         }
 
